@@ -12,7 +12,7 @@ public class HelperBot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Find
+        
     }
 
     
