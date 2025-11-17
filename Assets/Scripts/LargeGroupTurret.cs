@@ -3,7 +3,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MaxHPTurret : MonoBehaviour
+public class LargeGroupTurret : MonoBehaviour
 {
     public int health;
 
@@ -12,15 +12,18 @@ public class MaxHPTurret : MonoBehaviour
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
 
-    public float shootTimer = 1f;
-    private float shotTime = 0;
+
+    public float shootTimer = 0.8f;
+    float shotTime = 0;
+
+    public int radius;
 
     public GameObject projectile;
     Transform target;
 
     public Transform shotSpawn;
 
-    public GameObject goal;
+    GameObject goal;
     string priorityLane;
     void Start()
     {
@@ -30,7 +33,9 @@ public class MaxHPTurret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
+
 
         //find the lane with the most zombies and make it priority
         /*int lane1count = 0, lane2count = 0, lane3count = 0;
@@ -67,7 +72,6 @@ public class MaxHPTurret : MonoBehaviour
     {
         if (other.gameObject.tag == "Zombie")
         {
-            Debug.Log("zombie entered");
             enemiesInRange.Add(other.gameObject);
         }
     }
@@ -76,7 +80,6 @@ public class MaxHPTurret : MonoBehaviour
     {
         if (other.gameObject.tag == "Zombie")
         {
-            Debug.Log("zombie left");
             enemiesInRange.Remove(other.gameObject);
         }
     }
@@ -90,14 +93,22 @@ public class MaxHPTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
-        GameObject highestHpEnemy = enemies[0];
-        foreach(GameObject zombie in enemies)
+        GameObject largestGroupEnemy = enemies[0];
+
+        int largestGroup = 0;
+
+        foreach (GameObject zombie in enemies)
         {
-            if (highestHpEnemy.GetComponent<Zombie>().health < zombie.GetComponent<Zombie>().health /*&& zombie.GetComponent<Zombie>().lane == priorityLane*/)
+            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, radius);
+            int surroundCount = 0;
+            foreach (Collider collider in colliders)
             {
-                highestHpEnemy = zombie;
+                if (collider.CompareTag("Zombie"))
+                    surroundCount++;
             }
+            if (surroundCount > largestGroup /*&& zombie.GetComponent<Zombie>().lane == priorityLane*/)
+                largestGroupEnemy = zombie; Debug.Log(surroundCount);
         }
-        return highestHpEnemy.transform;
+        return largestGroupEnemy.transform;
     }
 }

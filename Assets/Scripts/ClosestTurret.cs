@@ -3,25 +3,25 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MaxHPTurret : MonoBehaviour
+public class ClosestTurret : MonoBehaviour
 {
-    public int health;
+        public int health;
 
     public int maxHealth = 100;
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
 
-    public float shootTimer = 1f;
-    private float shotTime = 0;
+    public float shootTimer = 0.3f;
+
+     float shotTime = 0;
 
     public GameObject projectile;
     Transform target;
 
     public Transform shotSpawn;
 
-    public GameObject goal;
-    string priorityLane;
+    public Transform goal;
     void Start()
     {
         health = maxHealth;
@@ -31,26 +31,7 @@ public class MaxHPTurret : MonoBehaviour
     void Update()
     {
         enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
-
-        //find the lane with the most zombies and make it priority
-        /*int lane1count = 0, lane2count = 0, lane3count = 0;
-        foreach (GameObject zombie in enemies)
-        {
-            if (zombie.GetComponent<Zombie>().lane == "lane1")
-                lane1count++;
-            else if (zombie.GetComponent<Zombie>().lane == "lane2")
-                lane2count++;
-            else if (zombie.GetComponent<Zombie>().lane == "lane3")
-                lane3count++;
-        }
-        if (lane1count >= lane2count && lane1count >= lane3count)
-            priorityLane = "lane1";
-        else if (lane2count >= lane1count && lane2count >= lane3count)
-            priorityLane = "lane2";
-        else
-            priorityLane = "lane3";
-        */
-            
+        
         if (enemiesInRange.Count > 0)
         {
             target = getTarget(enemiesInRange);
@@ -67,7 +48,6 @@ public class MaxHPTurret : MonoBehaviour
     {
         if (other.gameObject.tag == "Zombie")
         {
-            Debug.Log("zombie entered");
             enemiesInRange.Add(other.gameObject);
         }
     }
@@ -76,7 +56,6 @@ public class MaxHPTurret : MonoBehaviour
     {
         if (other.gameObject.tag == "Zombie")
         {
-            Debug.Log("zombie left");
             enemiesInRange.Remove(other.gameObject);
         }
     }
@@ -90,14 +69,14 @@ public class MaxHPTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
-        GameObject highestHpEnemy = enemies[0];
+        GameObject closestEnemy = enemies[0];
         foreach(GameObject zombie in enemies)
         {
-            if (highestHpEnemy.GetComponent<Zombie>().health < zombie.GetComponent<Zombie>().health /*&& zombie.GetComponent<Zombie>().lane == priorityLane*/)
+            if (Vector3.Distance(closestEnemy.transform.position, goal.position) > Vector3.Distance(zombie.transform.position, goal.position))
             {
-                highestHpEnemy = zombie;
+                closestEnemy = zombie;
             }
         }
-        return highestHpEnemy.transform;
+        return closestEnemy.transform;
     }
 }
