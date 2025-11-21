@@ -20,7 +20,7 @@ public class MaxHPTurret : MonoBehaviour
 
     public Transform shotSpawn;
 
-    public GameObject goal;
+    public Transform goal;
     string priorityLane;
     void Start()
     {
@@ -50,15 +50,22 @@ public class MaxHPTurret : MonoBehaviour
         else
             priorityLane = "lane3";
         */
-            
-        if (enemiesInRange.Count > 0)
+        if (Time.frameCount % 20 == 0 || Time.frameCount<20)
         {
-            target = getTarget(enemiesInRange);
-            transform.LookAt(target);
-            if (Time.time >= shotTime)
+            if (enemiesInRange.Count > 0)
             {
-                shoot(target);
-                shotTime = Time.time + shootTimer;
+                target = getTarget(enemiesInRange);
+            }
+        }
+        if(target!= null){
+        if (enemiesInRange.Count > 0)
+            {
+                transform.LookAt(target);
+                if (Time.time >= shotTime)
+                {
+                    shoot(target);
+                    shotTime = Time.time + shootTimer;
+                }
             }
         }
     }
@@ -90,14 +97,59 @@ public class MaxHPTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
-        GameObject highestHpEnemy = enemies[0];
+
+        GameObject targetEnemy;
+        if(target == null)
+       { 
+        targetEnemy = enemies[0];
+       }
+        else
+        {
+            targetEnemy = target.GameObject();
+        }
+
+        int hiscore = 0;
         foreach(GameObject zombie in enemies)
         {
-            if (highestHpEnemy.GetComponent<Zombie>().health < zombie.GetComponent<Zombie>().health /*&& zombie.GetComponent<Zombie>().lane == priorityLane*/)
+            int zombieScore = 0;
+            if(target!=null)
             {
-                highestHpEnemy = zombie;
+            if (zombie == target.GameObject())
+            zombieScore += 50;
+            }
+            if (zombie.GetComponent<Zombie>().health > targetEnemy.GetComponent<Zombie>().health)
+            zombieScore += zombie.GetComponent<Zombie>().health - targetEnemy.GetComponent<Zombie>().health;
+            if (zombie.GetComponent<Zombie>().isAttacking)
+            {
+                zombieScore+= 25;
+            }
+            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, 5);
+            foreach (Collider collider in colliders)
+            {
+                if (collider.CompareTag("Zombie"))
+                zombieScore+=10;
+            }
+                zombieScore -= (int)Vector3.Distance(zombie.transform.position, goal.position);
+
+            if(zombie.GetComponent<Zombie>().targettedBy != gameObject && zombie.GetComponent<Zombie>().targettedBy != null)
+                    {
+                        zombieScore -= 100;
+                    }
+            if (zombieScore > hiscore)
+            {
+                 Debug.Log(zombieScore + " is higher than " + hiscore);
+                hiscore = zombieScore;
+                targetEnemy = zombie;
             }
         }
-        return highestHpEnemy.transform;
+        targetEnemy.GameObject().GetComponent<Zombie>().targettedBy = gameObject;
+                foreach(GameObject enemy in enemiesInRange)
+                {
+                    if(enemy.GetComponent<Zombie>().targettedBy == gameObject && enemy != targetEnemy)
+                    {
+                        enemy.GetComponent<Zombie>().targettedBy = null;
+                    }
+                }
+        return targetEnemy.transform;
     }
 }

@@ -23,7 +23,7 @@ public class LargeGroupTurret : MonoBehaviour
 
     public Transform shotSpawn;
 
-    GameObject goal;
+    public Transform goal;
     string priorityLane;
     void Start()
     {
@@ -56,14 +56,22 @@ public class LargeGroupTurret : MonoBehaviour
             priorityLane = "lane3";
         */
             
-        if (enemiesInRange.Count > 0)
+        if (Time.frameCount % 20 == 0 || Time.frameCount<20)
         {
-            target = getTarget(enemiesInRange);
-            transform.LookAt(target);
-            if (Time.time >= shotTime)
+            if (enemiesInRange.Count > 0)
             {
-                shoot(target);
-                shotTime = Time.time + shootTimer;
+                target = getTarget(enemiesInRange);
+            }
+        }
+        if(target!= null){
+        if (enemiesInRange.Count > 0)
+            {
+                transform.LookAt(target);
+                if (Time.time >= shotTime)
+                {
+                    shoot(target);
+                    shotTime = Time.time + shootTimer;
+                }
             }
         }
     }
@@ -93,7 +101,7 @@ public class LargeGroupTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
-        GameObject largestGroupEnemy = enemies[0];
+        /*GameObject largestGroupEnemy = enemies[0];
 
         int largestGroup = 0;
 
@@ -106,9 +114,65 @@ public class LargeGroupTurret : MonoBehaviour
                 if (collider.CompareTag("Zombie"))
                     surroundCount++;
             }
-            if (surroundCount > largestGroup /*&& zombie.GetComponent<Zombie>().lane == priorityLane*/)
+            if (surroundCount > largestGroup /*&& zombie.GetComponent<Zombie>().lane == priorityLane)
                 largestGroupEnemy = zombie; Debug.Log(surroundCount);
         }
-        return largestGroupEnemy.transform;
+        return largestGroupEnemy.transform;*/
+
+            GameObject targetEnemy;
+        if(target == null)
+       { 
+        targetEnemy = enemies[0];
+       }
+        else
+        {
+            targetEnemy = target.GameObject();
+        }
+
+        int hiscore = 0;
+        foreach(GameObject zombie in enemies)
+        {
+            int zombieScore = 0;
+            if(target!=null)
+            {
+            if (zombie == target.GameObject())
+            zombieScore += 100;
+            }
+            if (zombie.GetComponent<Zombie>().isAttacking)
+            {
+                zombieScore+= 30;
+            }
+            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, 5);
+            foreach (Collider collider in colliders)
+            {
+                if (collider.CompareTag("Zombie"))
+                {
+                    zombieScore += 30;
+                zombieScore+=collider.GameObject().GetComponent<Zombie>().health/2;
+                }
+            }
+                zombieScore -= (int)Vector3.Distance(zombie.transform.position, goal.position)/5;
+
+            if(zombie.GetComponent<Zombie>().targettedBy != gameObject && zombie.GetComponent<Zombie>().targettedBy != null)
+                    {
+                        zombieScore -= 1000;
+                    }
+            if (zombieScore > hiscore)
+            {
+                 Debug.Log(zombieScore + " is higher than " + hiscore);
+                hiscore = zombieScore;
+                targetEnemy = zombie;
+            }
+        }
+        targetEnemy.GameObject().GetComponent<Zombie>().targettedBy = gameObject;
+                foreach(GameObject enemy in enemiesInRange)
+                {
+                    if(enemy.GetComponent<Zombie>().targettedBy == gameObject && enemy != targetEnemy)
+                    {
+                        enemy.GetComponent<Zombie>().targettedBy = null;
+                    }
+                }
+        return targetEnemy.transform;
+
     }
 }

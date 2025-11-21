@@ -32,14 +32,22 @@ public class ClosestTurret : MonoBehaviour
     {
         enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
         
-        if (enemiesInRange.Count > 0)
+        if (Time.frameCount % 3 == 0 || Time.frameCount<3)
         {
-            target = getTarget(enemiesInRange);
-            transform.LookAt(target);
-            if (Time.time >= shotTime)
+            if (enemiesInRange.Count > 0)
             {
-                shoot(target);
-                shotTime = Time.time + shootTimer;
+                target = getTarget(enemiesInRange);
+            }
+        }
+        if(target!= null){
+        if (enemiesInRange.Count > 0)
+            {
+                transform.LookAt(target);
+                if (Time.time >= shotTime)
+                {
+                    shoot(target);
+                    shotTime = Time.time + shootTimer;
+                }
             }
         }
     }
@@ -69,7 +77,7 @@ public class ClosestTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
-        GameObject closestEnemy = enemies[0];
+        /*GameObject closestEnemy = enemies[0];
         foreach(GameObject zombie in enemies)
         {
             if (Vector3.Distance(closestEnemy.transform.position, goal.position) > Vector3.Distance(zombie.transform.position, goal.position))
@@ -77,6 +85,45 @@ public class ClosestTurret : MonoBehaviour
                 closestEnemy = zombie;
             }
         }
-        return closestEnemy.transform;
+        return closestEnemy.transform;*/
+
+         GameObject targetEnemy;
+        if(target == null)
+       { 
+        targetEnemy = enemies[0];
+       }
+        else
+        {
+            targetEnemy = target.GameObject();
+        }
+
+        int hiscore = -100;
+        foreach(GameObject zombie in enemies)
+        {
+            int zombieScore = 0;
+            if(target!=null)
+            {
+            if (zombie == target.GameObject())
+            zombieScore -= 10;
+            }
+            if (zombie.GetComponent<Zombie>().isAttacking)
+            {
+                zombieScore=-5;
+            }
+            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, 5);
+            foreach (Collider collider in colliders)
+            {
+                if (collider.CompareTag("Zombie"))
+                zombieScore-=30;
+            }
+                zombieScore -= (int)Vector3.Distance(zombie.transform.position, goal.position)*3;
+            if (zombieScore > hiscore)
+            {
+                 Debug.Log(zombieScore + " is higher than " + hiscore);
+                hiscore = zombieScore;
+                targetEnemy = zombie;
+            }
+        }
+        return targetEnemy.transform;
     }
 }
