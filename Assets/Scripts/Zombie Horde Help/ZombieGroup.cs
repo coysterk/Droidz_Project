@@ -14,10 +14,18 @@ public class ZombieGroup
     private float lastAverageDistance = -1f;
     public float SpreadChangeThreshold = 0.05f; // 5% change
 
-    public ZombieGroup(GameObject firstZombie)
+    bool zombieAdded;
+
+    public ZombieGroup(Transform firstZombie)
     {
-        zombies = new List<Transform> { firstZombie.transform };
+        zombies = new List<Transform> { firstZombie };
         UpdateGroup();
+    }
+
+    public void AddToZombieGroup( Transform T)
+    {
+        zombies.Add(T);
+        zombieAdded = true;
     }
 
     public void UpdateGroup()// Should try and call it every frame
@@ -26,7 +34,7 @@ public class ZombieGroup
         RecalculateAverageDistance();
 
         // Only recalculates radii when average distance changes enough
-        if (ShouldRecalculateRadii())
+        if (ShouldRecalculateRadii()|| zombieAdded)
             RecalculateRadii();
     }
 
@@ -41,11 +49,16 @@ public class ZombieGroup
         GroupCenter = sum / zombies.Count;
     }
 
-    public void RecalculateRadii()// Mulitiplies by a certain amount to allow more units to come into it
-    {
-        GroupRadii = GetGroupRadii(zombies, GroupCenter);
-        GroupRadii *= ExpansionFactor;
-    }
+public void RecalculateRadii()
+{
+    GroupRadii = GetGroupRadii(zombies, GroupCenter);
+    GroupRadii += new Vector3(10,10,10);
+
+    float min = 0.5f; 
+    if (GroupRadii.x < min) GroupRadii.x = min;
+    if (GroupRadii.y < min) GroupRadii.y = min;
+    if (GroupRadii.z < min) GroupRadii.z = min;
+}
 
     public void RecalculateAverageDistance()// Pretty obvious
     {
@@ -82,20 +95,28 @@ public class ZombieGroup
         return false;
     }
 
-    Vector3 GetGroupRadii(List<Transform> list, Vector3 center)// Finds the radius needed to fit all current units.
+Vector3 GetGroupRadii(List<Transform> list, Vector3 center)
+{
+    zombieAdded = false;
+    if (list.Count == 0) 
     {
-        float rx = 0f, ry = 0f, rz = 0f;
-
-        foreach (var t in list)
-        {
-            Vector3 p = t.position - center;
-            rx = Mathf.Max(rx, Mathf.Abs(p.x));
-            ry = Mathf.Max(ry, Mathf.Abs(p.y));
-            rz = Mathf.Max(rz, Mathf.Abs(p.z));
-        }
-
-        return new Vector3(rx, ry, rz);
+        Debug.Log("List too small");
+        return Vector3.one * 0.5f;
     }
+
+    float rx = 0f, ry = 0f, rz = 0f;
+
+    foreach (var t in list)
+    {
+        Vector3 offset = t.position - center;
+                Debug.Log(offset);
+        rx = Mathf.Max(rx, Mathf.Abs(offset.x));
+        ry = Mathf.Max(ry, Mathf.Abs(offset.y));
+        rz = Mathf.Max(rz, Mathf.Abs(offset.z));
+    }
+    
+    return new Vector3(rx, ry, rz);
+}
 
     public bool InsideGroup(Vector3 pos) // Should be ran on Agents outside the group each frame. Inside the group is technically handlded by the 
     {
@@ -117,4 +138,5 @@ public class ZombieGroup
 
         return value <= 1f;
     }
+
 }
