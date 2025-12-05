@@ -100,6 +100,7 @@ public class ClosestTurret : MonoBehaviour
         int hiscore = -100;
         foreach(GameObject zombie in enemies)
         {
+            if(zombie == null) continue;
             int zombieScore = 0;
             if(target!=null)
             {
@@ -124,6 +125,10 @@ public class ClosestTurret : MonoBehaviour
                 targetEnemy = zombie;
             }
         }
-        return targetEnemy.transform;
+        if(targetEnemy != null)
+        {
+            return targetEnemy.transform;
+        }
+        return null;
     }
 }

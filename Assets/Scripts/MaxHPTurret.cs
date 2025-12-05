@@ -111,6 +111,7 @@ public class MaxHPTurret : MonoBehaviour
         int hiscore = 0;
         foreach(GameObject zombie in enemies)
         {
+            if(zombie == null) continue;
             int zombieScore = 0;
             if(target!=null)
             {
@@ -142,14 +143,22 @@ public class MaxHPTurret : MonoBehaviour
                 targetEnemy = zombie;
             }
         }
-        targetEnemy.GameObject().GetComponent<Zombie>().targettedBy = gameObject;
+        if(targetEnemy != null)
+        {
+            targetEnemy.GameObject().GetComponent<Zombie>().targettedBy = gameObject;
                 foreach(GameObject enemy in enemiesInRange)
                 {
+                    if(enemy == null) continue;
                     if(enemy.GetComponent<Zombie>().targettedBy == gameObject && enemy != targetEnemy)
                     {
                         enemy.GetComponent<Zombie>().targettedBy = null;
                     }
                 }
-        return targetEnemy.transform;
+        }
+        if(targetEnemy != null)
+        {
+            return targetEnemy.transform;
+        }
+        return null;
     }
 }
