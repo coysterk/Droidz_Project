@@ -11,16 +11,20 @@ public class MaxHPTurret : MonoBehaviour
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
+    List<GameObject> stack = new List<GameObject>();
 
     public float shootTimer = 1f;
     private float shotTime = 0;
+    public int radius;
 
     public GameObject projectile;
-    Transform target;
+    public Transform target, priorityTarget;
 
     public Transform shotSpawn;
 
     public Transform goal;
+
+    public string targettingTechnique = " ";
     string priorityLane;
     void Start()
     {
@@ -31,6 +35,18 @@ public class MaxHPTurret : MonoBehaviour
     void Update()
     {
         enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
+
+        enemiesInRange.Clear();
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        Debug.DrawRay(transform.position, Vector3.up * radius, Color.red);
+        
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Zombie"))
+            {
+                enemiesInRange.Add(hitCollider.gameObject);
+            }
+        }
 
         //find the lane with the most zombies and make it priority
         /*int lane1count = 0, lane2count = 0, lane3count = 0;
@@ -70,23 +86,7 @@ public class MaxHPTurret : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Zombie")
-        {
-            Debug.Log("zombie entered");
-            enemiesInRange.Add(other.gameObject);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Zombie")
-        {
-            Debug.Log("zombie left");
-            enemiesInRange.Remove(other.gameObject);
-        }
-    }
+    
 
     void shoot(Transform target)
     {
@@ -97,8 +97,32 @@ public class MaxHPTurret : MonoBehaviour
     
     Transform getTarget(List<GameObject> enemies)
     {
+        if(priorityTarget != null && Vector3.Distance(transform.position, priorityTarget.position) <= radius)
+           {
+            targettingTechnique = "priorityTarget";
+            return priorityTarget;
+           }
+        else if(getDangerousTarget(enemies) != null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
+           {
+            targettingTechnique = "dangerousTarget";
+            sendTarget(getDangerousTarget(enemies));
+            return getDangerousTarget(enemies);
+           }
+        else if(getStackPriority(stack) >= 5)
+            {
+            targettingTechnique = "stackPriority";
+            return targetStack(enemies);
+            }
+        else
+        {
+            targettingTechnique = "normalTarget";
+             return getNormalTarget(enemies);
+        }
+    }
 
-        GameObject targetEnemy;
+    Transform getNormalTarget(List<GameObject> enemies)
+    {
+         GameObject targetEnemy;
         if(target == null)
        { 
         targetEnemy = enemies[0];
@@ -138,7 +162,6 @@ public class MaxHPTurret : MonoBehaviour
                     }
             if (zombieScore > hiscore)
             {
-                 Debug.Log(zombieScore + " is higher than " + hiscore);
                 hiscore = zombieScore;
                 targetEnemy = zombie;
             }
@@ -160,5 +183,98 @@ public class MaxHPTurret : MonoBehaviour
             return targetEnemy.transform;
         }
         return null;
+    }
+
+    Transform getDangerousTarget(List<GameObject> enemies)
+    {
+        GameObject targetEnemy;
+
+        //get enemy closest to this game object 
+        targetEnemy = enemies[0];
+        float closestDistance = Vector3.Distance(transform.position, targetEnemy.transform.position);
+        foreach (GameObject zombie in enemies)
+        {   if(zombie == null) continue;
+            float distance = Vector3.Distance(transform.position, zombie.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                targetEnemy = zombie;
+            }
+        }
+        if(targetEnemy != null)
+        {
+            if (Vector3.Distance(transform.position, targetEnemy.transform.position) < radius * 0.3f)
+            {
+                return targetEnemy.transform;
+            }
+        }
+        
+        return null;
+    }
+
+    //send target to other turrets
+   void sendTarget(Transform target)
+    {
+        MaxHPTurret[] turrets = Object.FindObjectsByType<MaxHPTurret>(FindObjectsSortMode.None);
+        ClosestTurret[] closeTurrets = Object.FindObjectsByType<ClosestTurret>(FindObjectsSortMode.None);
+        foreach(ClosestTurret turret in closeTurrets)
+        {
+            if(turret != this)
+            {
+                turret.priorityTarget = target;
+            }
+        }
+        foreach(MaxHPTurret turret in turrets)
+        {
+            if(turret != this)
+            {
+                turret.priorityTarget = target;
+            }
+        }
+    }
+
+//calculates stack priority
+    float getStackPriority(List<GameObject> enemies)
+    {
+        int priority = 0;
+        if (enemies.Count < 2)
+        {
+            return 0;
+        }
+        foreach(GameObject z in enemies)
+        {
+            priority++;
+        }
+        if(Vector3.Distance(enemies[enemies.Count-1].transform.position, transform.position) > radius * 0.7f)
+        {
+            float distance = Vector3.Distance(enemies[enemies.Count-1].transform.position, transform.position);
+            float percentage = distance / radius;
+            priority += (int)(percentage * 5);
+        }
+        return priority;
+    }
+
+//sets target to highest zombie in stack
+    Transform targetStack(List<GameObject> enemies)
+    {
+        GameObject targetEnemy = enemies[0];
+        foreach(GameObject zombie in enemies)
+        {
+            if(zombie == null) continue;
+            //target highest zombie
+            if(zombie.transform.position.y > targetEnemy.transform.position.y)
+            {
+                targetEnemy = zombie;
+            }
+            //if heights are equal, choose highest hp one
+            else if(zombie.transform.position.y == targetEnemy.transform.position.y)
+            {
+                if(zombie.GetComponent<Zombie>().health > targetEnemy.GetComponent<Zombie>().health)
+                {
+                    targetEnemy = zombie;
+                }
+            }
+        }
+        return targetEnemy.transform;
     }
 }

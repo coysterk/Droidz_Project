@@ -625,9 +625,13 @@ MonoBehaviour:
   health: 50
   maxHealth: 100
   shootTimer: 1
+  radius: 5
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 256973714}
   goal: {fileID: 410403345}
+  targettingTechnique: ' '
 --- !u!65 &472758666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1095,7 +1099,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   shootTimer: 0.3
+  radius: 5
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 373754568}
   goal: {fileID: 410403345}
 --- !u!135 &676383919
@@ -1134,9 +1141,13 @@ MonoBehaviour:
   health: 50
   maxHealth: 100
   shootTimer: 1
+  radius: 5
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 373754568}
   goal: {fileID: 410403345}
+  targettingTechnique: ' '
 --- !u!65 &676383921
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1742,8 +1753,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   shootTimer: 0.8
-  radius: 1
+  radius: 5
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 1698578564}
   goal: {fileID: 410403345}
 --- !u!114 &1840942376
@@ -1761,7 +1774,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   shootTimer: 0.3
+  radius: 0
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 1698578564}
   goal: {fileID: 410403345}
 --- !u!135 &1840942377
@@ -1800,9 +1816,13 @@ MonoBehaviour:
   health: 50
   maxHealth: 100
   shootTimer: 1
+  radius: 5
   projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 1698578564}
   goal: {fileID: 410403345}
+  targettingTechnique: ' '
 --- !u!65 &1840942379
 BoxCollider:
   m_ObjectHideFlags: 0
