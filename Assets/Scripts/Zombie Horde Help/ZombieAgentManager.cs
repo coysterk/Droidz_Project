@@ -11,6 +11,7 @@ public class ZombieAgentManager : MonoBehaviour
     public GameObject ZombiePrefab;
     public static ZombieAgentManager Instance;
 
+    public float joinDistance;
     void Awake() 
     {
          Instance = this;
@@ -45,11 +46,11 @@ GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.ident
             Debug.Log("Adding to "+ group);
                 return group;
             }
-            //if (Vector3.Distance(zombie.position, group.GroupCenter) < joinDistance) //Testing thing. Probally gonna change it out with an attempt to join annother group by gaining speed.
-            //{
-            //    Debug.Log("Adding to "+ group);
-            //    return group;
-            //}
+            if (Vector3.Distance(zombie.position, group.GroupCenter) < joinDistance)
+            {
+                TryToReturnToGroup();
+                return null;
+            }
         }
 
         return CreateNewGroup(zombie);
@@ -63,6 +64,12 @@ GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.ident
         return group;
     }
 
+
+    void TryToReturnToGroup()
+    {
+        
+        //Add a route to try and join group Maybe give them extra speed
+    }
 void OnDrawGizmos()
 {
     if (groups == null) return;

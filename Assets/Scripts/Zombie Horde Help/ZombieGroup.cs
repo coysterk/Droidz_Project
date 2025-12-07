@@ -10,6 +10,11 @@ public class ZombieGroup
     public float AverageDistance;
     public float ExpansionFactor = 1.1f;
 
+    public int CurrentGroupCount;
+
+    public int MaxZombieCount;
+    
+
     // Added for optimization
     private float lastAverageDistance = -1f;
     public float SpreadChangeThreshold = 0.05f; // 5% change
@@ -24,15 +29,26 @@ public class ZombieGroup
 
     public void AddToZombieGroup( Transform T)
     {
+        MaxZombieCount++;
         zombies.Add(T);
         zombieAdded = true;
+    }
+
+    public void KillZombie(Transform T)
+    {
+    
+    }
+
+    public float ZombiesKilledPercentage()
+    {
+        return (MaxZombieCount - CurrentGroupCount) / (float)MaxZombieCount;
     }
 
     public void UpdateGroup()// Should try and call it every frame
     {
         RecalculateCenter();
         RecalculateAverageDistance();
-
+        CurrentGroupCount = zombies.Count;
         // Only recalculates radii when average distance changes enough
         if (ShouldRecalculateRadii()|| zombieAdded)
             RecalculateRadii();
@@ -139,4 +155,8 @@ Vector3 GetGroupRadii(List<Transform> list, Vector3 center)
         return value <= 1f;
     }
 
+    public float AverageDistanceToGoal(Vector3 Goal)
+    {
+        return Vector3.Distance(GroupCenter, Goal);
+    }
 }
