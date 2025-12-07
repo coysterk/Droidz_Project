@@ -12,7 +12,8 @@ public class AOEProjectile : MonoBehaviour
     void Start()
     {
         transform.localScale = new Vector3(radius, 0.1f, radius);
-        GetComponent<Renderer>().material.color = new Color(1, 0, 0, 0.5f);
+        GetComponent<Renderer>().material.color = new Color(1, 0, 0, 0.3f);
+        GetComponent<Renderer>().material.renderQueue = 3000;
         colliders = Physics.OverlapSphere(transform.position, radius);
         Destroy(gameObject, 0.4f);
     }
@@ -20,7 +21,7 @@ public class AOEProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //every 0.1 seconds, deal damage to all zombies in range
+
         if(Time.time >= damageTimer + damageInterval)
         {
             foreach (var collider in colliders)
@@ -33,7 +34,6 @@ public class AOEProjectile : MonoBehaviour
                     Debug.Log("AOE Projectile damaged " + colliders.Length + " enemies.");
             }
         damageTimer = Time.time;
-        }   
-
+        }
     }
 }

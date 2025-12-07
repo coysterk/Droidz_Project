@@ -3,11 +3,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MaxHPTurret : MonoBehaviour
+public class MaxHPTurret : Turret
 {
-    public int health;
-
-    public int maxHealth = 100;
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
@@ -254,26 +251,13 @@ public class MaxHPTurret : MonoBehaviour
         return priority;
     }
 
-//sets target to highest zombie in stack
+//sets target to random zombie in stack
     Transform targetStack(List<GameObject> enemies)
     {
-        GameObject targetEnemy = enemies[0];
-        foreach(GameObject zombie in enemies)
+        GameObject targetEnemy = null;
+        while(targetEnemy == null)
         {
-            if(zombie == null) continue;
-            //target highest zombie
-            if(zombie.transform.position.y > targetEnemy.transform.position.y)
-            {
-                targetEnemy = zombie;
-            }
-            //if heights are equal, choose highest hp one
-            else if(zombie.transform.position.y == targetEnemy.transform.position.y)
-            {
-                if(zombie.GetComponent<Zombie>().health > targetEnemy.GetComponent<Zombie>().health)
-                {
-                    targetEnemy = zombie;
-                }
-            }
+        targetEnemy = enemies[Random.Range(0, enemies.Count)];
         }
         return targetEnemy.transform;
     }

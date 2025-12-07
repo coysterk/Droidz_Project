@@ -3,11 +3,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LargeGroupTurret : MonoBehaviour
+public class LargeGroupTurret : Turret
 {
-    public int health;
-
-    public int maxHealth = 100;
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
@@ -260,17 +257,17 @@ public class LargeGroupTurret : MonoBehaviour
         return priority;
     }
 
-//sets target to highest zombie in stack
+//sets target to middle zombie in stack
     Transform targetStack(List<GameObject> enemies)
     {
         GameObject targetEnemy = enemies[0];
-        foreach(GameObject zombie in enemies)
+        if(enemies.Count % 2 == 0)
         {
-            if(zombie == null) continue;
-            if(zombie.transform.position.y > targetEnemy.transform.position.y)
-            {
-                targetEnemy = zombie;
-            }
+            targetEnemy = enemies[enemies.Count / 2];
+        }
+        else
+        {
+            targetEnemy = enemies[(enemies.Count - 1) / 2];
         }
         return targetEnemy.transform;
     }

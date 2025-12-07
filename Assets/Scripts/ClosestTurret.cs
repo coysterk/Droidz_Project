@@ -3,11 +3,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ClosestTurret : MonoBehaviour
+public class ClosestTurret : Turret
 {
-        public int health;
-
-    public int maxHealth = 100;
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
