@@ -1754,7 +1754,7 @@ MonoBehaviour:
   maxHealth: 100
   shootTimer: 0.8
   radius: 5
-  projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
+  projectile: {fileID: 3119859780250423257, guid: b1c0824943c312c47babd04ec2d3926b, type: 3}
   target: {fileID: 0}
   priorityTarget: {fileID: 0}
   shotSpawn: {fileID: 1698578564}

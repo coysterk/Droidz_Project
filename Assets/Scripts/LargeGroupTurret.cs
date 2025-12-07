@@ -93,9 +93,9 @@ public class LargeGroupTurret : MonoBehaviour
 
     void shoot(Transform target)
     {
-        GameObject firingProjectile = Instantiate(projectile, shotSpawn.position, shotSpawn.rotation);
-        Rigidbody rb = firingProjectile.GetComponent<Rigidbody>();
-        rb.AddForce((target.position - shotSpawn.position).normalized * 20,ForceMode.Impulse);
+        //create projectile at target position
+        Instantiate(projectile, target.position, target.rotation);
+        
     }
     
     Transform getTarget(List<GameObject> enemies)
@@ -151,7 +151,7 @@ public class LargeGroupTurret : MonoBehaviour
             {
                 zombieScore+= 30;
             }
-            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, 5);
+            Collider[] colliders = Physics.OverlapSphere(zombie.transform.position, 3);
             foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("Zombie"))
