@@ -37,9 +37,8 @@ public class Spawner : MonoBehaviour
         {
             int intervals = Mathf.FloorToInt(timer / intervalSeconds);
 
-            heavyChance += intervals * increasePerInterval;
+            heavyChance += .05f;
 
-            heavyChance = Mathf.Min(heavyChance, 100f);
 
             timer -= intervals * intervalSeconds;
 
@@ -67,6 +66,6 @@ public class Spawner : MonoBehaviour
 
 public bool TimedChance(float chance)
 {
-    return Threshold < chance +Random.value * 0.25f;
+    return Threshold < chance +Random.value * 1f;
 }
 }
