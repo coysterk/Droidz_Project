@@ -32,6 +32,7 @@ public partial class InsideGroupAction : Action
         }
         else
         {
+            target = zom.Value.GetCenter();
             m_nav.SetDestination(target);
             return Status.Running;
         }
