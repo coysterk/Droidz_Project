@@ -17,7 +17,7 @@ public class GroupMover : MonoBehaviour
         laneOne = GameObject.FindWithTag("laneOne").GetComponent<Transform>();
         laneTwo = GameObject.FindWithTag("laneTwo").GetComponent<Transform>();
         laneThree = GameObject.FindWithTag("laneThree").GetComponent<Transform>();
-        goal = GameObject.FindWithTag("laneOne").GetComponent<Transform>();
+        goal = GameObject.FindWithTag("goal").GetComponent<Transform>();
         int rand = Random.Range(1, 3);
         if(rand == 1)
         {
