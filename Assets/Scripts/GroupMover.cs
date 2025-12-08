@@ -14,6 +14,7 @@ public class GroupMover : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = agent.speed / 2;
         laneOne = GameObject.FindWithTag("laneOne").GetComponent<Transform>();
         laneTwo = GameObject.FindWithTag("laneTwo").GetComponent<Transform>();
         laneThree = GameObject.FindWithTag("laneThree").GetComponent<Transform>();
