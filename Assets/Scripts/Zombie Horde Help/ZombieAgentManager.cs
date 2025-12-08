@@ -6,8 +6,8 @@ public class ZombieAgentManager : MonoBehaviour
     public bool LazyTest;
     public List<ZombieGroup> groups = new List<ZombieGroup>();
     public List<GameObject> AllZombies= new List<GameObject>();
-    GameObject groupParent;
 
+    public GameObject groupParentPrefab;
     public GameObject ZombiePrefab;
     public static ZombieAgentManager Instance;
 
@@ -59,7 +59,7 @@ public class ZombieAgentManager : MonoBehaviour
         ZombieGroup group = new ZombieGroup(zombie);
         groups.Add(group);
         Debug.Log("Creating new Group");
-        groupParent = new GameObject("Zombie Group");
+        GameObject groupParent = Instantiate(groupParentPrefab, zombie);
         group.GroupCenter = groupParent.transform.position;
         group.transform.parent = groupParent.transform;
 
