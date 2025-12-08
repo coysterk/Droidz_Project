@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2775788023491693944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3238876686256020916}
+  m_Layer: 0
+  m_Name: shotSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3238876686256020916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2775788023491693944}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.048350573, z: 2.9972908}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1814675636137125332}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8608577668266312047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 916257724600459056}
+  - component: {fileID: 883965225850410478}
+  m_Layer: 0
+  m_Name: Gatling Turret
+  m_TagString: Turret
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &916257724600459056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608577668266312047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.7, y: 0.66, z: 0.36762}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1814657887035716088}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &883965225850410478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608577668266312047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c15dcc1daff174fa5c1d2bcd3a5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClosestTurret
+  health: 0
+  maxHealth: 100
+  danger: 0
+  priorityHp: 0
+  radius: 30
+  target: {fileID: 0}
+  priorityTarget: {fileID: 0}
+  shootTimer: 0.3
+  damage: 0
+  targettingTechnique: 
+  projectile: {fileID: 6545576896303135925, guid: b2d1cce1c010fdf4dbd927b04c558852, type: 3}
+  gun: {fileID: 1814675636137125332}
+  shotSpawn: {fileID: 3238876686256020916}
+  goal: {fileID: 0}
+--- !u!1001 &1818955974152560320
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 916257724600459056}
+    m_Modifications:
+    - target: {fileID: 1110718186611134, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_Name
+      value: model
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4854560194722580, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3238876686256020916}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+--- !u!4 &1814657887035716088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4731653346815800, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+  m_PrefabInstance: {fileID: 1818955974152560320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1814675636137125332 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4854560194722580, guid: a794c31a181a6954e9ab74bcda5f4d8d, type: 3}
+  m_PrefabInstance: {fileID: 1818955974152560320}
+  m_PrefabAsset: {fileID: 0}

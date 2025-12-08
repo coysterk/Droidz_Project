@@ -21,6 +21,7 @@ public class ClosestTurret : Turret
     public string targettingTechnique;
 
     public GameObject projectile;
+    public Transform gun;
     
 
     public Transform shotSpawn;
@@ -97,7 +98,7 @@ public class ClosestTurret : Turret
         if(target!= null){
         if (enemiesInRange.Count > 0)
             {
-                transform.LookAt(target);
+                gun.LookAt(target);
                 if (Time.time >= shotTime)
                 {
                     shoot(target);

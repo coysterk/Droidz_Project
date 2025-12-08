@@ -20,6 +20,7 @@ public class MaxHPTurret : Turret
 
 
     public Transform shotSpawn;
+    public Transform gun;
 
     public Transform goal;
 
@@ -94,7 +95,7 @@ public class MaxHPTurret : Turret
         if(target!= null){
         if (enemiesInRange.Count > 0)
             {
-                transform.LookAt(target);
+                gun.LookAt(target);
                 if (Time.time >= shotTime)
                 {
                     shoot(target);

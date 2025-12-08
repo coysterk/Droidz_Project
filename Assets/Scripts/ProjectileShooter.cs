@@ -11,7 +11,7 @@ public class ProjectileShooter : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Zombie"))
+        if (other.GetComponent<Zombie>() != null)
         {
             other.GetComponent<Zombie>().health -= damage;
             Destroy(gameObject);

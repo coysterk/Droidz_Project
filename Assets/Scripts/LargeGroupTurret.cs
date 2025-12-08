@@ -20,9 +20,8 @@ List<GameObject> stackParent = new List<GameObject>();
     public string targettingTechnique;
 
     public GameObject projectile;
+    public Transform gun;
 
-
-    public Transform shotSpawn;
 
     public Transform goal;
     string priorityLane;
@@ -99,7 +98,7 @@ List<GameObject> stackParent = new List<GameObject>();
         if(target!= null){
         if (enemiesInRange.Count > 0)
             {
-                transform.LookAt(target);
+                gun.LookAt(target);
                 if (Time.time >= shotTime)
                 {
                     shoot(target);
