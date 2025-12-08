@@ -14,6 +14,8 @@ public class LargeGroupTurret : Turret
 
     public float shootTimer = 0.8f;
     float shotTime = 0;
+    float edgeMultiplier = 1f;
+    float decreaseTimer = 0f;
 
     public string targettingTechnique;
 
@@ -33,6 +35,8 @@ public class LargeGroupTurret : Turret
     void Update()
     {
         enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
+        List<GameObject> oldEnemiesInRange = new List<GameObject>(enemiesInRange);
+        oldEnemiesInRange.RemoveAll(item => item == null);
 
         enemiesInRange.Clear();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
@@ -44,6 +48,20 @@ public class LargeGroupTurret : Turret
             {
                 enemiesInRange.Add(hitCollider.gameObject);
             }
+        }
+        if(enemiesInRange.Count < oldEnemiesInRange.Count)
+        {
+            edgeMultiplier += (oldEnemiesInRange.Count - enemiesInRange.Count) * 0.5f;
+            decreaseTimer = Time.time;
+        }
+        else if(Time.time >= decreaseTimer + 2f && edgeMultiplier > 1f)
+        {
+            edgeMultiplier -= 0.5f;
+            if(edgeMultiplier < 1f)
+            {
+                edgeMultiplier = 1f;
+            }
+            decreaseTimer = Time.time;
         }
 
         //find the lane with the most zombies and make it priority
@@ -173,7 +191,7 @@ public class LargeGroupTurret : Turret
             {
                 float distance = Vector3.Distance(zombie.transform.position, transform.position);
                 float percentage = distance / radius;
-                zombieScore *= (int)(1+percentage);
+                zombieScore *= (int)(1+(percentage * edgeMultiplier));
             }
             if (zombieScore > hiscore)
             {
@@ -235,7 +253,7 @@ public class LargeGroupTurret : Turret
         {
             if (hitCollider.CompareTag("Turret"))
             {
-                Turret turret = hitCollider.GetComponent<LargeGroupTurret>();
+                Turret turret = hitCollider.GetComponent<Turret>();
                 if (turret != this && Vector3.Distance(turret.transform.position, target.position) <= turret.radius && health < turret.priorityHp)
                 {
                     turret.priorityHp = health;
