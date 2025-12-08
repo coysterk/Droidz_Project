@@ -60,6 +60,26 @@ public partial class MoveOffEachOtherAction : Action
 
     protected override Status OnUpdate()
     {
+        desiredPosition = group.Value.GetCenter();
+
+        Vector3 repulsion = Vector3.zero;
+        Collider[] hits = Physics.OverlapSphere(agentTrans.position, repulsionRadius);
+        foreach (var c in hits)
+        {
+            if (c.transform == agentTrans) continue;
+            Zombie other = c.GetComponent<Zombie>();
+            if (other == null || other.GetGroup() != thisGroup) continue;
+            Vector3 diff = agentTrans.position - other.transform.position;
+            float d = diff.magnitude;
+            if (d < 0.001f) continue;
+            float strength = Mathf.Clamp01((repulsionRadius - d) / repulsionRadius) * repulsionStrength;
+            repulsion += diff.normalized * strength;
+        }
+
+        Vector3 target = desiredPosition + repulsion;
+        nav.isStopped = false;
+        nav.SetDestination(target);
+
         if ((agentTrans.position - desiredPosition).sqrMagnitude <= slotArrivalThreshold * slotArrivalThreshold)
         {
             nav.speed = Mathf.Lerp(nav.speed, 0.6f * nav.speed, 0.5f);
