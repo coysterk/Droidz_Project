@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 751882520}
   - component: {fileID: 751882519}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: HordeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -771,9 +771,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066306029a24a48448c6f13ecc39d1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieAgentManager
+  LazyTest: 0
   AllZombies: []
-  joinDistance: 10
   ZombiePrefab: {fileID: 552118487}
+  joinDistance: 10
 --- !u!4 &751882520
 Transform:
   m_ObjectHideFlags: 0
@@ -1523,6 +1524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020088750}
+  - component: {fileID: 2020088751}
   m_Layer: 0
   m_Name: BasicDroid
   m_TagString: Untagged
@@ -1546,6 +1548,35 @@ Transform:
   - {fileID: 1670094004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020088751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020088749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: 8200812161073803760, guid: d31db974f19d9df48ae34510680f89bc, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 8233860131362701413
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8233860131362701413
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 2020088749}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
