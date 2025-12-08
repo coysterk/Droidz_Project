@@ -4,13 +4,18 @@ using UnityEngine;
 public class Zombie : MonoBehaviour
 {
     [Header("Personal Variables")]
-    [SerializeField] float Health;
+    [SerializeField] public float Health;
+
     [SerializeField] GameObject Goal;
     [SerializeField] GameObject regularHordeModel;
     [SerializeField] GameObject heavyHordeModel;
     [SerializeField] bool isHeavy;
     private ZombieGroup group;
     private ZombieAgentManager agentManager;
+
+    public GameObject  targettedBy;
+
+    public bool isAttacking;
 
     void Start()
     {

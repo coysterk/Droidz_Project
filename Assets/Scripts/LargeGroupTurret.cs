@@ -196,7 +196,7 @@ List<GameObject> stackParent = new List<GameObject>();
                 if (collider.CompareTag("Zombie"))
                 {
                     zombieScore += 30;
-                zombieScore+=collider.GameObject().GetComponent<Zombie>().health/2;
+                zombieScore+= (int)(collider.GameObject().GetComponent<Zombie>().Health/2);
                 }
             }
                 zombieScore -= (int)Vector3.Distance(zombie.transform.position, goal.position)/5;
