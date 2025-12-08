@@ -7,11 +7,10 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "MoveOffEachOther", story: "[Agent] moves off other [Agents]", category: "Action", id: "e1333e818a42cff504ecdcaf79c41eb0")]
+[NodeDescription(name: "MoveOffEachOther", story: "[Agent] moves off other Agents in group", category: "Action", id: "e1333e818a42cff504ecdcaf79c41eb0")]
 public partial class MoveOffEachOtherAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
-    [SerializeReference] public BlackboardVariable<List<Vector3>> Agents;
     [SerializeReference] public BlackboardVariable<Zombie> group;
     [SerializeReference] public BlackboardVariable<float> repulsionRadius;
     [SerializeReference] public BlackboardVariable<float> repulsionStrength;
