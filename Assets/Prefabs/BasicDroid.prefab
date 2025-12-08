@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b44e871fd2c0bd469846e9595e12988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  Health: 0
+  Health: 100
   Goal: {fileID: 0}
   regularHordeModel: {fileID: 8801987640067454444}
   heavyHordeModel: {fileID: 4539524714426827195}

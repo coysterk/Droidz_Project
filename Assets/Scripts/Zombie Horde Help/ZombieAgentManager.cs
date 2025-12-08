@@ -104,5 +104,15 @@ void OnDrawGizmos()
 }
 
 //make zombie group child of group parent
-
+    public int FindZombieIndex(ZombieGroup ZG, Transform t)
+    {
+        for(int i = 0; i < ZG.zombies.Count; i ++)
+        {
+            if(t = ZG.zombies[i])
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
