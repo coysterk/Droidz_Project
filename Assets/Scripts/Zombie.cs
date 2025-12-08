@@ -1,29 +1,77 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    public int health;
-    public int maxHealth = 100;
+    [Header("Personal Variables")]
+    [SerializeField] float Health;
+    [SerializeField] GameObject Goal;
+    [SerializeField] GameObject regularHordeModel;
+    [SerializeField] GameObject heavyHordeModel;
+    [SerializeField] bool isHeavy;
+    private ZombieGroup group;
+    private ZombieAgentManager agentManager;
 
-    public bool isAttacking;
-
-    public GameObject targettedBy;
-
-    //public string lane = "lane0";
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        agentManager = ZombieAgentManager.Instance;
+        group = agentManager.FindGroupForZombie(this.transform);
         
+        if (isHeavy)
+        {
+            regularHordeModel.SetActive(false);
+            heavyHordeModel.SetActive(true);
+            Health = 1000f;
+        } 
+        else
+        {
+            heavyHordeModel.SetActive(false);
+            regularHordeModel.SetActive(true);
+            Health = 100f;
+        }
     }
 
-    // Update is called once per frame
+    //Keep the update simple here, to help performance we dont want each zombie
+    //to run a complex update on top of a tree
     void Update()
     {
-        if(health <= 0)
+        if (Health <= 0)
         {
-            //before destroying, separate its children from it
-            transform.DetachChildren();
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        Health -= dmg;
+    }
+
+    public bool InsideGroup(Transform zom)
+    {
+        if (group.InsideGroup(this.transform.position))
+        {
+            return true;
+        }
+        else { return false; }
+    }
+
+    public Vector3 GetCenter()
+    {
+        return group.GroupCenter;
+    }
+
+    public ZombieGroup GetGroup() 
+        {  return group; }
+
+            public bool HeavyGetSet
+    {
+        get { return isHeavy; }      // getter
+        set { isHeavy = value; }     // setter
+    }
+
+        public GameObject GoalGetSet
+    {
+        get { return Goal; }      // getter
+        set { Goal = value; }     // setter
     }
 }
