@@ -5,8 +5,8 @@ public class ZombieAgentManager : MonoBehaviour
 {
     public bool LazyTest;
     public List<ZombieGroup> groups = new List<ZombieGroup>();
-
     public List<GameObject> AllZombies= new List<GameObject>();
+    GameObject groupParent;
 
     public GameObject ZombiePrefab;
     public static ZombieAgentManager Instance;
@@ -17,6 +17,8 @@ public class ZombieAgentManager : MonoBehaviour
     void Awake() 
     {
          Instance = this;
+         //whenever a group is spawned make a new object
+         //group middle is made into center of the object
     }
     void Update()
     {
@@ -57,6 +59,10 @@ public class ZombieAgentManager : MonoBehaviour
         ZombieGroup group = new ZombieGroup(zombie);
         groups.Add(group);
         Debug.Log("Creating new Group");
+        groupParent = new GameObject("Zombie Group");
+        group.GroupCenter = groupParent.transform.position;
+        group.transform.parent = groupParent.transform;
+
         return group;
     }
 
@@ -96,5 +102,7 @@ void OnDrawGizmos()
         Gizmos.DrawLine(center, center - new Vector3(0, 0, radii.z));
     }
 }
+
+//make zombie group child of group parent
 
 }
