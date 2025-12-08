@@ -56,10 +56,11 @@ public class ZombieAgentManager : MonoBehaviour
 
     public ZombieGroup CreateNewGroup(Transform zombie)
     {
+        Vector3 zero = Vector3.zero;
         ZombieGroup group = new ZombieGroup(zombie);
         groups.Add(group);
         Debug.Log("Creating new Group");
-        GameObject groupParent = Instantiate(groupParentPrefab, zombie);
+        GameObject groupParent = Instantiate(groupParentPrefab, zero, Quaternion.identity);
         group.GroupCenter = groupParent.transform.position;
         group.transform.parent = groupParent.transform;
 
