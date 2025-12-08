@@ -13,7 +13,7 @@ public class ProjectileShooter : MonoBehaviour
     {
         if (other.GetComponent<Zombie>() != null)
         {
-            other.GetComponent<Zombie>().health -= damage;
+            //other.GetComponent<Zombie>().Health -= damage;
             Destroy(gameObject);
         }
     }

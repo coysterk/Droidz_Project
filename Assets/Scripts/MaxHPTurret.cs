@@ -183,8 +183,8 @@ public class MaxHPTurret : Turret
             if (zombie == target.GameObject())
             zombieScore += 50;
             }
-            if (zombie.GetComponent<Zombie>().health > targetEnemy.GetComponent<Zombie>().health)
-            zombieScore += zombie.GetComponent<Zombie>().health - targetEnemy.GetComponent<Zombie>().health;
+            if (zombie.GetComponent<Zombie>().Health > targetEnemy.GetComponent<Zombie>().Health)
+                zombieScore += (int)((int)zombie.GetComponent<Zombie>().Health - targetEnemy.GetComponent<Zombie>().Health);
             if (zombie.GetComponent<Zombie>().isAttacking)
             {
                 zombieScore+= 25;
