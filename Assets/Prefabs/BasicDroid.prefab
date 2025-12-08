@@ -79,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
   Health: 0
   Goal: {fileID: 0}
-  regularHordeModel: {fileID: 8801987640067454444}
-  heavyHordeModel: {fileID: 4539524714426827195}
+  regularHordeModel: {fileID: 8801317035637266384}
+  heavyHordeModel: {fileID: 4537594985895163703}
   isHeavy: 0
 --- !u!195 &2644506706951413832
 NavMeshAgent:
@@ -182,9 +182,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4078725191484616, guid: c38312671b1287f438871de666ae8f72, type: 3}
   m_PrefabInstance: {fileID: 4538556791375322295}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4539524714426827195 stripped
+--- !u!1 &4537594985895163703 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1003819124677900, guid: c38312671b1287f438871de666ae8f72, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1398320186731392, guid: c38312671b1287f438871de666ae8f72, type: 3}
   m_PrefabInstance: {fileID: 4538556791375322295}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8800768537197770914
@@ -244,9 +244,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
---- !u!1 &8801987640067454444 stripped
+--- !u!1 &8801317035637266384 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1246040904830286, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1710209854320498, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
   m_PrefabInstance: {fileID: 8800768537197770914}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8805409222766524292 stripped
