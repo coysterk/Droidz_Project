@@ -35,7 +35,8 @@ public class MaxHPTurret : Turret
     // Update is called once per frame
     void Update()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Zombie").ToList();
+        enemies = GameObject.FindAnyObjectByType<Zombie>()?.gameObject.GetComponent<Zombie>() ? GameObject.FindGameObjectsWithTag("Zombie").ToList() : new List<GameObject>();
+        Debug.Log("Enemies in scene: " + enemies.Count);
         List<GameObject> oldEnemiesInRange = new List<GameObject>(enemiesInRange);
         oldEnemiesInRange.RemoveAll(item => item == null);
 
@@ -109,6 +110,7 @@ public class MaxHPTurret : Turret
 
     void shoot(Transform target)
     {
+        Debug.Log("Shooting at " + target.name + " with HP: " + target.gameObject.GetComponent<Zombie>().Health);
         //target.gameObject.GetComponent<Zombie>().takeDamage(damage);
         GameObject firingProjectile = Instantiate(projectile, shotSpawn.position, shotSpawn.rotation);
         Rigidbody rb = firingProjectile.GetComponent<Rigidbody>();
@@ -183,6 +185,7 @@ public class MaxHPTurret : Turret
             if (zombie == target.GameObject())
             zombieScore += 50;
             }
+            Debug.Log("Evaluating zombie with HP: " + zombie);
             if (zombie.GetComponent<Zombie>().Health > targetEnemy.GetComponent<Zombie>().Health)
                 zombieScore += (int)((int)zombie.GetComponent<Zombie>().Health - targetEnemy.GetComponent<Zombie>().Health);
             if (zombie.GetComponent<Zombie>().isAttacking)

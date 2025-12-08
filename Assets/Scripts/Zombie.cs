@@ -26,7 +26,7 @@ public class Zombie : MonoBehaviour
         {
             regularHordeModel.SetActive(false);
             heavyHordeModel.SetActive(true);
-            Health = 1000f;
+            Health = 200f;
         } 
         else
         {
