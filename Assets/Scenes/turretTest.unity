@@ -625,11 +625,12 @@ MonoBehaviour:
   health: 50
   maxHealth: 100
   danger: 0
-  shootTimer: 1
+  priorityHp: 0
   radius: 5
-  projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
   target: {fileID: 0}
   priorityTarget: {fileID: 0}
+  shootTimer: 1
+  projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
   shotSpawn: {fileID: 256973714}
   goal: {fileID: 410403345}
   targettingTechnique: ' '
@@ -949,7 +950,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -965,7 +966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5360058032575c5489c082c2d2e6aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  health: 100
+  health: 999999
   maxHealth: 100
   isAttacking: 1
   targettedBy: {fileID: 0}
@@ -1257,12 +1258,14 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   danger: 0
-  shootTimer: 0.3
+  priorityHp: 0
   radius: 5
-  targettingTechnique: 
-  projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
   target: {fileID: 0}
   priorityTarget: {fileID: 0}
+  shootTimer: 0.3
+  damage: 0
+  targettingTechnique: 
+  projectile: {fileID: 1207273873065367409, guid: c7d610c2166b8f04890e673d3211758c, type: 3}
   shotSpawn: {fileID: 373754568}
   goal: {fileID: 410403345}
 --- !u!135 &676383919
@@ -1565,7 +1568,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304332563}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb9b7decaf8f1a84b90c83aa1c018060, type: 3}
   m_Name: 
@@ -1733,7 +1736,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1749,8 +1752,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5360058032575c5489c082c2d2e6aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  health: 100
-  maxHealth: 100
+  health: 2147483647
+  maxHealth: 2147483647
   isAttacking: 1
   targettedBy: {fileID: 0}
 --- !u!136 &1354445788
@@ -2041,12 +2044,13 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   danger: 0
-  shootTimer: 0.8
+  priorityHp: 0
   radius: 5
-  targettingTechnique: 
-  projectile: {fileID: 3119859780250423257, guid: b1c0824943c312c47babd04ec2d3926b, type: 3}
   target: {fileID: 0}
   priorityTarget: {fileID: 0}
+  shootTimer: 0.8
+  targettingTechnique: 
+  projectile: {fileID: 3119859780250423257, guid: b1c0824943c312c47babd04ec2d3926b, type: 3}
   shotSpawn: {fileID: 1698578564}
   goal: {fileID: 410403345}
 --- !u!135 &1840942377
@@ -2523,7 +2527,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2539,8 +2543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5360058032575c5489c082c2d2e6aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  health: 100
-  maxHealth: 100
+  health: 2147483647
+  maxHealth: 2147483647
   isAttacking: 1
   targettedBy: {fileID: 0}
 --- !u!136 &2098073410
