@@ -60,12 +60,6 @@ public class ZombieAgentManager : MonoBehaviour
         return group;
     }
 
-
-    void TryToReturnToGroup()
-    {
-        
-        //Add a route to try and join group Maybe give them extra speed
-    }
 void OnDrawGizmos()
 {
     if (groups == null) return;
