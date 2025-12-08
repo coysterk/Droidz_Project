@@ -11,6 +11,8 @@ public class ZombieAgentManager : MonoBehaviour
     public GameObject ZombiePrefab;
     public static ZombieAgentManager Instance;
 
+    public HordeEvaluation HordeEvaluation;
+
     public float joinDistance;
     void Awake() 
     {
@@ -31,7 +33,7 @@ public class ZombieAgentManager : MonoBehaviour
     [ContextMenu("DO IT")]
     public void LAZY()
     {
-GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.identity);
+    GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.identity);
             AllZombies.Add(temp);
         FindGroupForZombie(temp.transform).AddToZombieGroup(temp.transform);
         Debug.Log(groups.Count);
@@ -39,6 +41,8 @@ GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.ident
 
     public ZombieGroup FindGroupForZombie(Transform zombie)
     {
+        float Best = -1;
+        ZombieGroup ZG = null;
         foreach (var group in groups)
         {
             if (group.InsideGroup(zombie.position))
@@ -46,13 +50,18 @@ GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.ident
             Debug.Log("Adding to "+ group);
                 return group;
             }
-            if (Vector3.Distance(zombie.position, group.GroupCenter) < joinDistance)
+            float current =HordeEvaluation.GroupUtilityToJoin(group,zombie); 
+            if(Best < current)
             {
-                TryToReturnToGroup();
-                return null;
+                ZG = group;
+                Best = current;
             }
         }
 
+        if(ZG != null)
+        {
+            return ZG;
+        }
         return CreateNewGroup(zombie);
     }
 

@@ -67,4 +67,15 @@ public float GroupUtility(ZombieGroup ZG)
 
     return utility;
 }
+
+public float GroupUtilityToJoin(ZombieGroup ZG, Transform T)
+    {
+        float util = GroupUtility(ZG);
+        util*=.75f;
+    float dist = Vector3.Distance(ZG.GroupCenter, T.position);
+    float DistanceReward = 1f - Mathf.Clamp01(dist / 10f);
+        DistanceReward*=.25f;
+        return util+DistanceReward;
+
+    }
 }
