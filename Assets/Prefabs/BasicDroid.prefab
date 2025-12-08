@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2644506706951413832}
   m_Layer: 0
   m_Name: BasicDroid
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,6 +82,8 @@ MonoBehaviour:
   regularHordeModel: {fileID: 8801317035637266384}
   heavyHordeModel: {fileID: 4537594985895163703}
   isHeavy: 0
+  targettedBy: {fileID: 0}
+  isAttacking: 0
 --- !u!195 &2644506706951413832
 NavMeshAgent:
   m_ObjectHideFlags: 0

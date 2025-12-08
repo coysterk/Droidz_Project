@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Zombie
   - Turret
+  - goal
+  - lane Two
+  - lane Three
+  - lane One
+  - laneOne
+  - laneTwo
+  - laneThree
   layers:
   - Default
   - TransparentFX

@@ -7,12 +7,10 @@ public class ZombieAgentManager : MonoBehaviour
     public List<ZombieGroup> groups = new List<ZombieGroup>();
 
     public GameObject groupParentPrefab;
-    public GameObject ZombiePrefab;
     public static ZombieAgentManager Instance;
 
     public HordeEvaluation HordeEvaluation;
 
-    public float joinDistance;
     void Awake() 
     {
          Instance = this;
@@ -29,7 +27,6 @@ public class ZombieAgentManager : MonoBehaviour
             
     }
     
-
     public ZombieGroup FindGroupForZombie(Transform zombie)
     {
         float Best = -1;
@@ -62,7 +59,7 @@ public class ZombieAgentManager : MonoBehaviour
         ZombieGroup group = new ZombieGroup(zombie);
         groups.Add(group);
         Debug.Log("Creating new Group");
-        GameObject groupParent = Instantiate(groupParentPrefab, zero, Quaternion.identity);
+        GameObject groupParent = Instantiate(groupParentPrefab, zombie.position, Quaternion.identity);
         group.GroupCenter = groupParent.transform.position;
                 group.GroupObject = groupParent.transform;
         group.transform.parent = groupParent.transform;
