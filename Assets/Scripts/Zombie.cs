@@ -14,7 +14,7 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
-        agentManager = GetComponent<ZombieAgentManager>();
+        agentManager = ZombieAgentManager.Instance;
         group = agentManager.FindGroupForZombie(this.transform);
         
         if (isHeavy)
@@ -62,4 +62,16 @@ public class Zombie : MonoBehaviour
 
     public ZombieGroup GetGroup() 
         {  return group; }
+
+            public bool HeavyGetSet
+    {
+        get { return isHeavy; }      // getter
+        set { isHeavy = value; }     // setter
+    }
+
+        public GameObject GoalGetSet
+    {
+        get { return Goal; }      // getter
+        set { Goal = value; }     // setter
+    }
 }
