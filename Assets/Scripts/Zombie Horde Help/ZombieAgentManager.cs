@@ -20,24 +20,11 @@ public class ZombieAgentManager : MonoBehaviour
     }
     void Update()
     {
-        if(LazyTest)
-        {
-            LazyTest = false;
-            LAZY();
-        }
         foreach (var group in groups)
             group.UpdateGroup();
             
     }
-
-    [ContextMenu("DO IT")]
-    public void LAZY()
-    {
-    GameObject temp = Instantiate(ZombiePrefab, new Vector3(0,0,0), Quaternion.identity);
-            AllZombies.Add(temp);
-        FindGroupForZombie(temp.transform).AddToZombieGroup(temp.transform);
-        Debug.Log(groups.Count);
-    }
+    
 
     public ZombieGroup FindGroupForZombie(Transform zombie)
     {
@@ -50,7 +37,7 @@ public class ZombieAgentManager : MonoBehaviour
             Debug.Log("Adding to "+ group);
                 return group;
             }
-            float current =HordeEvaluation.GroupUtilityToJoin(group,zombie); 
+            float current = HordeEvaluation.GroupUtilityToJoin(group,zombie); 
             if(Best < current)
             {
                 ZG = group;
