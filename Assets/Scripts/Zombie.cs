@@ -59,4 +59,7 @@ public class Zombie : MonoBehaviour
     {
         return group.GroupCenter;
     }
+
+    public ZombieGroup GetGroup() 
+        {  return group; }
 }
