@@ -15,12 +15,13 @@ public class Zombie : MonoBehaviour
 
     public GameObject  targettedBy;
 
-    public bool isAttacking;
+    public bool canAttack;
 
     void Start()
     {
         agentManager = ZombieAgentManager.Instance;
         group = agentManager.FindGroupForZombie(this.transform);
+        canAttack = false;
         
         if (isHeavy)
         {

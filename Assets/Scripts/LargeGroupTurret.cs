@@ -122,7 +122,7 @@ List<GameObject> stackParent = new List<GameObject>();
         if(priorityTarget != null && getDangerousTarget(enemies) == null)
            {
             targettingTechnique = "priorityTarget";
-            if(!priorityTarget.GetComponent<Zombie>().isAttacking || Vector3.Distance(transform.position, priorityTarget.position) > radius)
+            if(!priorityTarget.GetComponent<Zombie>().canAttack || Vector3.Distance(transform.position, priorityTarget.position) > radius)
             {
                 priorityTarget = null;
                 priorityHp = maxHealth;
@@ -130,7 +130,7 @@ List<GameObject> stackParent = new List<GameObject>();
             }
             return priorityTarget;
            }
-        else if(getDangerousTarget(enemies)!= null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
+        else if(getDangerousTarget(enemies)!= null && getDangerousTarget(enemies).GetComponent<Zombie>().canAttack)
            {
             targettingTechnique = "dangerousTarget";
             sendTarget(getDangerousTarget(enemies), health);
@@ -186,7 +186,7 @@ List<GameObject> stackParent = new List<GameObject>();
             if (zombie == target.GameObject())
             zombieScore += 100;
             }
-            if (zombie.GetComponent<Zombie>().isAttacking)
+            if (zombie.GetComponent<Zombie>().canAttack)
             {
                 zombieScore+= 30;
             }

@@ -120,7 +120,7 @@ public class MaxHPTurret : Turret
         if(priorityTarget != null && getDangerousTarget(enemies) == null)
            {
             targettingTechnique = "priorityTarget";
-            if(!priorityTarget.GetComponent<Zombie>().isAttacking || Vector3.Distance(transform.position, priorityTarget.position) > radius)
+            if(!priorityTarget.GetComponent<Zombie>().canAttack || Vector3.Distance(transform.position, priorityTarget.position) > radius)
             {
                 priorityTarget = null;
                 priorityHp = maxHealth;
@@ -128,7 +128,7 @@ public class MaxHPTurret : Turret
             }
             return priorityTarget;
            }
-        else if(getDangerousTarget(enemies) != null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
+        else if(getDangerousTarget(enemies) != null && getDangerousTarget(enemies).GetComponent<Zombie>().canAttack)
            {
             
             targettingTechnique = "dangerousTarget";
@@ -185,7 +185,7 @@ public class MaxHPTurret : Turret
             }
             if (zombie.GetComponent<Zombie>().Health > targetEnemy.GetComponent<Zombie>().Health)
                 zombieScore += (int)((int)zombie.GetComponent<Zombie>().Health - targetEnemy.GetComponent<Zombie>().Health);
-            if (zombie.GetComponent<Zombie>().isAttacking)
+            if (zombie.GetComponent<Zombie>().canAttack)
             {
                 zombieScore+= 25;
             }
