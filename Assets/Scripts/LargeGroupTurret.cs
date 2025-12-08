@@ -8,7 +8,7 @@ public class LargeGroupTurret : Turret
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
-
+List<GameObject> stackParent = new List<GameObject>();
     List<GameObject> stack = new List<GameObject>();
 
 
@@ -43,11 +43,31 @@ public class LargeGroupTurret : Turret
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         Debug.DrawRay(transform.position, Vector3.up * radius, Color.red);
         
+        
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Zombie"))
             {
                 enemiesInRange.Add(hitCollider.gameObject);
+            }
+        }
+
+        stackParent.Clear();
+        foreach(GameObject enemy in enemiesInRange)
+        {
+            if(enemy == null) continue;
+            if(enemy.transform.childCount > 0)
+            {
+                foreach(Transform child in enemy.transform)
+                {
+                    if(child.GetComponent<Zombie>() != null)
+                    {
+                        if(!stackParent.Contains(enemy) && enemy.transform.parent == null)
+                        {
+                            stackParent.Add(enemy);
+                        }
+                    }
+                }
             }
         }
         if(enemiesInRange.Count < oldEnemiesInRange.Count)
@@ -64,6 +84,8 @@ public class LargeGroupTurret : Turret
             }
             decreaseTimer = Time.time;
         }
+
+        
 
         
             
@@ -115,16 +137,30 @@ public class LargeGroupTurret : Turret
             sendTarget(getDangerousTarget(enemies), health);
             return getDangerousTarget(enemies);
            }
-        else if(getStackPriority(stack) >= 5)
-            {
-            targettingTechnique = "stackPriority";
-            return targetStack(enemies);
-            }
         else
-           {
-            targettingTechnique = "normalTarget";
-            return getNormalTarget(enemies);
-           }
+        {
+            float highestPriority = 0;
+            GameObject highestPriorityParent = null;
+            foreach(GameObject parent in stackParent)
+            {
+                float stackPriority = getStackPriority(getStack(parent));
+                if(stackPriority > highestPriority)
+                {
+                    highestPriority = stackPriority;
+                    highestPriorityParent = parent;
+                }
+            }
+            if(highestPriorityParent != null && highestPriority >= 3)
+            {
+                targettingTechnique = "stackTarget";
+                return targetStack(getStack(highestPriorityParent));
+            }
+            else
+            {
+                targettingTechnique = "normalTarget";
+                return getNormalTarget(enemies);
+            }
+        }
     }
 
    
@@ -229,7 +265,30 @@ public class LargeGroupTurret : Turret
         return null;
     }
 
-    //send target to other turrets
+
+void getStackRecursive(Transform parent, List<GameObject> stack)
+    {
+        foreach(Transform child in parent)
+        {
+            if(child.GetComponent<Zombie>() != null)
+            {
+                stack.Add(child.gameObject);
+            }
+            if(child.childCount > 0)
+            {
+                getStackRecursive(child, stack);
+            }
+        }
+    }
+
+    List<GameObject> getStack(GameObject parent)
+    {
+        List<GameObject> stack = new List<GameObject>();
+        stack.Add(parent);
+        getStackRecursive(parent.transform, stack);
+        Debug.Log("Stack size: " + stack.Count);
+        return stack;
+    }
 
 //calculates stack priority
     float getStackPriority(List<GameObject> enemies)

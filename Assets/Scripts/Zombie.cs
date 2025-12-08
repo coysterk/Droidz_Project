@@ -21,6 +21,8 @@ public class Zombie : MonoBehaviour
     {
         if(health <= 0)
         {
+            //before destroying, separate its children from it
+            transform.DetachChildren();
             Destroy(gameObject);
         }
     }

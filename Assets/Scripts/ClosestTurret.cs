@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class ClosestTurret : Turret
 
     List<GameObject> enemies;
     List<GameObject> enemiesInRange = new List<GameObject>();
+    List<GameObject> stackParent = new List<GameObject>();
     List<GameObject> stack = new List<GameObject>();
 
     public float shootTimer = 0.3f;
@@ -63,6 +65,26 @@ public class ClosestTurret : Turret
             }
             decreaseTimer = Time.time;
         }
+
+        
+        stackParent.Clear();
+        foreach(GameObject enemy in enemiesInRange)
+        {
+            if(enemy == null) continue;
+            if(enemy.transform.childCount > 0)
+            {
+                foreach(Transform child in enemy.transform)
+                {
+                    if(child.GetComponent<Zombie>() != null)
+                    {
+                        if(!stackParent.Contains(enemy) && enemy.transform.parent == null)
+                        {
+                            stackParent.Add(enemy);
+                        }
+                    }
+                }
+            }
+        }
         
         //every 20 frames, update target
         if (Time.frameCount % 20 == 0 || Time.frameCount<20)
@@ -114,16 +136,30 @@ public class ClosestTurret : Turret
             sendTarget(getDangerousTarget(enemies), health);
             return getDangerousTarget(enemies);
            }
-        else if(getStackPriority(stack) >= 5)
-            {
-            targettingTechnique = "stackPriority";
-            return targetStack(enemies);
-            }
         else
-           {
-            targettingTechnique = "normalTarget";
-            return getNormalTarget(enemies);
-           }
+        {
+            float highestPriority = 0;
+            GameObject highestPriorityParent = null;
+            foreach(GameObject parent in stackParent)
+            {
+                float stackPriority = getStackPriority(getStack(parent));
+                if(stackPriority > highestPriority)
+                {
+                    highestPriority = stackPriority;
+                    highestPriorityParent = parent;
+                }
+            }
+            if(highestPriorityParent != null && highestPriority >= 3)
+            {
+                targettingTechnique = "stackTarget";
+                return targetStack(getStack(highestPriorityParent));
+            }
+            else
+            {
+                targettingTechnique = "normalTarget";
+                return getNormalTarget(enemies);
+            }
+        }
     }
 
     Transform getNormalTarget(List<GameObject> enemies)
@@ -202,6 +238,30 @@ public class ClosestTurret : Turret
     }
 
 
+void getStackRecursive(Transform parent, List<GameObject> stack)
+    {
+        foreach(Transform child in parent)
+        {
+            if(child.GetComponent<Zombie>() != null)
+            {
+                stack.Add(child.gameObject);
+            }
+            if(child.childCount > 0)
+            {
+                getStackRecursive(child, stack);
+            }
+        }
+    }
+
+    List<GameObject> getStack(GameObject parent)
+    {
+        List<GameObject> stack = new List<GameObject>();
+        stack.Add(parent);
+        getStackRecursive(parent.transform, stack);
+        Debug.Log("Stack size: " + stack.Count);
+        return stack;
+    }
+
 
 //calculates stack priority
     float getStackPriority(List<GameObject> enemies)
@@ -227,24 +287,8 @@ public class ClosestTurret : Turret
 //sets target to highest zombie in stack
     Transform targetStack(List<GameObject> enemies)
     {
-        GameObject targetEnemy = enemies[0];
-        foreach(GameObject zombie in enemies)
-        {
-            //get lowest zomgies
-            if(zombie == null) continue;
-            if(zombie.transform.position.y < targetEnemy.transform.position.y)
-            {
-                targetEnemy = zombie;
-            }
-            //if heights are equal, choose closer one
-            else if(zombie.transform.position.y == targetEnemy.transform.position.y)
-            {
-                if(Vector3.Distance(zombie.transform.position, transform.position) < Vector3.Distance(targetEnemy.transform.position, transform.position))
-                {
-                    targetEnemy = zombie;
-                }
-            }
-        }
+        //target random enemy in stack
+        GameObject targetEnemy = enemies[Random.Range(0, enemies.Count)];
         return targetEnemy.transform;
     }
 }
