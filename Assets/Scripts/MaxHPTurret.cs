@@ -12,10 +12,9 @@ public class MaxHPTurret : Turret
 
     public float shootTimer = 1f;
     private float shotTime = 0;
-    public int radius;
 
     public GameObject projectile;
-    public Transform target, priorityTarget;
+
 
     public Transform shotSpawn;
 
@@ -87,6 +86,7 @@ public class MaxHPTurret : Turret
 
     void shoot(Transform target)
     {
+        //target.gameObject.GetComponent<Zombie>().takeDamage(damage);
         GameObject firingProjectile = Instantiate(projectile, shotSpawn.position, shotSpawn.rotation);
         Rigidbody rb = firingProjectile.GetComponent<Rigidbody>();
         rb.AddForce((target.position - shotSpawn.position).normalized * 20,ForceMode.Impulse);
@@ -97,10 +97,17 @@ public class MaxHPTurret : Turret
         if(priorityTarget != null && Vector3.Distance(transform.position, priorityTarget.position) <= radius)
            {
             targettingTechnique = "priorityTarget";
+            if(!priorityTarget.GetComponent<Zombie>().isAttacking)
+            {
+                priorityTarget = null;
+                priorityHp = maxHealth;
+                return getTarget(enemies);
+            }
             return priorityTarget;
            }
         else if(getDangerousTarget(enemies) != null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
            {
+            
             targettingTechnique = "dangerousTarget";
             sendTarget(getDangerousTarget(enemies));
             return getDangerousTarget(enemies);
@@ -120,7 +127,7 @@ public class MaxHPTurret : Turret
     Transform getNormalTarget(List<GameObject> enemies)
     {
          GameObject targetEnemy;
-        if(target == null)
+        if(target == null || Vector3.Distance(target.position, transform.position) > radius)
        { 
         targetEnemy = enemies[0];
        }
@@ -157,6 +164,13 @@ public class MaxHPTurret : Turret
                     {
                         zombieScore -= 100;
                     }
+
+            if(Vector3.Distance(zombie.transform.position, transform.position) > radius * 0.9f)
+            {
+                float distance = Vector3.Distance(zombie.transform.position, transform.position);
+                float percentage = distance / radius;
+                zombieScore *= (int)(1+percentage);
+            }
             if (zombieScore > hiscore)
             {
                 hiscore = zombieScore;
@@ -212,20 +226,18 @@ public class MaxHPTurret : Turret
     //send target to other turrets
    void sendTarget(Transform target)
     {
-        MaxHPTurret[] turrets = Object.FindObjectsByType<MaxHPTurret>(FindObjectsSortMode.None);
-        ClosestTurret[] closeTurrets = Object.FindObjectsByType<ClosestTurret>(FindObjectsSortMode.None);
-        foreach(ClosestTurret turret in closeTurrets)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        foreach (var hitCollider in hitColliders)
         {
-            if(turret != this)
+            if (hitCollider.CompareTag("Turret"))
             {
-                turret.priorityTarget = target;
-            }
-        }
-        foreach(MaxHPTurret turret in turrets)
-        {
-            if(turret != this)
-            {
-                turret.priorityTarget = target;
+                Turret turret = hitCollider.GetComponent<LargeGroupTurret>();
+                if (turret != this && Vector3.Distance(turret.transform.position, target.position) <= turret.radius && health < turret.priorityHp)
+                {
+                    turret.priorityHp = health;
+                    turret.priorityTarget = target;
+                    turret.SendMessage("sendTarget", target);
+                }
             }
         }
     }

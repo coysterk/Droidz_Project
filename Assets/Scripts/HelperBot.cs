@@ -36,31 +36,26 @@ public class HelperBot : MonoBehaviour
             foreach(GameObject turret in turrets)
             {
                 if(turret == null) continue;
-                Debug.Log("Checking turret: " + turret.name);
                 Turret turretScript = turret.GetComponent<Turret>();
                 if(turretScript.health <= turretScript.maxHealth * 0.25f)
                 {
                     turretScript.danger = 4;
                     dangerFour.Add(turret);
-                    Debug.Log("Added to danger four: " + turret.name);
                 }
                 else if(turretScript.health <= turretScript.maxHealth * 0.5f)
                 {
                     turretScript.danger = 3;
                     dangerThree.Add(turret);
-                    Debug.Log("Added to danger three: " + turret.name);
                 }
                 else if(turretScript.health <= turretScript.maxHealth * 0.75f)
                 {
                     turretScript.danger = 2;
                     dangerTwo.Add(turret);
-                    Debug.Log("Added to danger two: " + turret.name);
                 }
                 else if(turretScript.health < turretScript.maxHealth)
                 {
                     turretScript.danger = 1;
                     dangerOne.Add(turret);
-                    Debug.Log("Added to danger one: " + turret.name);
                 }
                 //visit turrets based off of danger level and distance
                 if(dangerFour.Count > 0)

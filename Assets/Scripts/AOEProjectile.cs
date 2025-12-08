@@ -29,6 +29,7 @@ public class AOEProjectile : MonoBehaviour
                 if(collider == null) continue;
                 if (collider.CompareTag("Zombie"))
                     {
+                        //collider.GetComponent<Zombie>().takeDamage(damage);
                         collider.GetComponent<Zombie>().health -= damage;
                     }
                     Debug.Log("AOE Projectile damaged " + colliders.Length + " enemies.");
