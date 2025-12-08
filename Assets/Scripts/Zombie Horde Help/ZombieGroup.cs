@@ -14,6 +14,8 @@ public class ZombieGroup
 
     public int MaxZombieCount;
     public Transform transform;
+
+    public Transform GroupObject;
     
 
     // Added for optimization

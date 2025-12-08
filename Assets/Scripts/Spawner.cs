@@ -60,7 +60,7 @@ public class Spawner : MonoBehaviour
             Vector3 Point = Vector3.Lerp(StartSpawnPoint.position,EndSpawnPoint.position,t);
             GameObject obj = Instantiate(Zombo, Point, Quaternion.identity);
             obj.GetComponent<Zombie>().GoalGetSet = EndGoal;
-            //obj.GetComponent<Zombie>().HeavyGetSet = TimedChance(heavyChance);
+            obj.GetComponent<Zombie>().HeavyGetSet = TimedChance(heavyChance);
         }
     }
 

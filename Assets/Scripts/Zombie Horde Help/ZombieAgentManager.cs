@@ -5,7 +5,6 @@ public class ZombieAgentManager : MonoBehaviour
 {
     public bool LazyTest;
     public List<ZombieGroup> groups = new List<ZombieGroup>();
-    public List<GameObject> AllZombies= new List<GameObject>();
 
     public GameObject groupParentPrefab;
     public GameObject ZombiePrefab;
@@ -23,7 +22,10 @@ public class ZombieAgentManager : MonoBehaviour
     void Update()
     {
         foreach (var group in groups)
+        {
             group.UpdateGroup();
+             group.GroupCenter= group.GroupObject.position;
+        }
             
     }
     
@@ -46,8 +48,8 @@ public class ZombieAgentManager : MonoBehaviour
                 Best = current;
             }
         }
-
-        if(ZG != null)
+        Debug.Log("Best" + Best);
+        if(ZG != null && Best < .5f)
         {
             return ZG;
         }
@@ -62,6 +64,7 @@ public class ZombieAgentManager : MonoBehaviour
         Debug.Log("Creating new Group");
         GameObject groupParent = Instantiate(groupParentPrefab, zero, Quaternion.identity);
         group.GroupCenter = groupParent.transform.position;
+                group.GroupObject = groupParent.transform;
         group.transform.parent = groupParent.transform;
 
         return group;

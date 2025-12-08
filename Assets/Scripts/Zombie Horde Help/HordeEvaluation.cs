@@ -76,6 +76,5 @@ public float GroupUtilityToJoin(ZombieGroup ZG, Transform T)
     float DistanceReward = 1f - Mathf.Clamp01(dist / 10f);
         DistanceReward*=.25f;
         return util+DistanceReward;
-
     }
 }
