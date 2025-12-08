@@ -97,10 +97,10 @@ public class ClosestTurret : Turret
     
     Transform getTarget(List<GameObject> enemies)
     {
-        if(priorityTarget != null  && Vector3.Distance(transform.position, priorityTarget.position) <= radius)
+        if(priorityTarget != null && getDangerousTarget(enemies) == null)
            {
             targettingTechnique = "priorityTarget";
-            if(!priorityTarget.GetComponent<Zombie>().isAttacking)
+            if(!priorityTarget.GetComponent<Zombie>().isAttacking || Vector3.Distance(transform.position, priorityTarget.position) > radius)
             {
                 priorityTarget = null;
                 priorityHp = maxHealth;
@@ -111,7 +111,7 @@ public class ClosestTurret : Turret
         else if(getDangerousTarget(enemies) != null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
            {
             targettingTechnique = "dangerousTarget";
-            sendTarget(getDangerousTarget(enemies));
+            sendTarget(getDangerousTarget(enemies), health);
             return getDangerousTarget(enemies);
            }
         else if(getStackPriority(stack) >= 5)
@@ -201,24 +201,7 @@ public class ClosestTurret : Turret
         return null;
     }
 
-    //send target to other turrets
-    void sendTarget(Transform target)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Turret"))
-            {
-                Turret turret = hitCollider.GetComponent<Turret>();
-                if (turret != this && Vector3.Distance(turret.transform.position, target.position) <= turret.radius && health < turret.priorityHp)
-                {
-                    turret.priorityHp = health;
-                    turret.priorityTarget = target;
-                    turret.SendMessage("sendTarget", target);
-                }
-            }
-        }
-    }
+
 
 //calculates stack priority
     float getStackPriority(List<GameObject> enemies)

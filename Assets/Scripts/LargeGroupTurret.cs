@@ -29,6 +29,7 @@ public class LargeGroupTurret : Turret
     void Start()
     {
         health = maxHealth;
+        priorityHp = maxHealth;
     }
 
     // Update is called once per frame
@@ -64,24 +65,7 @@ public class LargeGroupTurret : Turret
             decreaseTimer = Time.time;
         }
 
-        //find the lane with the most zombies and make it priority
-        /*int lane1count = 0, lane2count = 0, lane3count = 0;
-        foreach (GameObject zombie in enemies)
-        {
-            if (zombie.GetComponent<Zombie>().lane == "lane1")
-                lane1count++;
-            else if (zombie.GetComponent<Zombie>().lane == "lane2")
-                lane2count++;
-            else if (zombie.GetComponent<Zombie>().lane == "lane3")
-                lane3count++;
-        }
-        if (lane1count >= lane2count && lane1count >= lane3count)
-            priorityLane = "lane1";
-        else if (lane2count >= lane1count && lane2count >= lane3count)
-            priorityLane = "lane2";
-        else
-            priorityLane = "lane3";
-        */
+        
             
         if (Time.frameCount % 20 == 0 || Time.frameCount<20)
         {
@@ -114,10 +98,10 @@ public class LargeGroupTurret : Turret
     
     Transform getTarget(List<GameObject> enemies)
     {      
-        if(priorityTarget != null && Vector3.Distance(transform.position, priorityTarget.position) <= radius)
+        if(priorityTarget != null && getDangerousTarget(enemies) == null)
            {
             targettingTechnique = "priorityTarget";
-            if(!priorityTarget.GetComponent<Zombie>().isAttacking)
+            if(!priorityTarget.GetComponent<Zombie>().isAttacking || Vector3.Distance(transform.position, priorityTarget.position) > radius)
             {
                 priorityTarget = null;
                 priorityHp = maxHealth;
@@ -128,7 +112,7 @@ public class LargeGroupTurret : Turret
         else if(getDangerousTarget(enemies)!= null && getDangerousTarget(enemies).GetComponent<Zombie>().isAttacking)
            {
             targettingTechnique = "dangerousTarget";
-            sendTarget(getDangerousTarget(enemies));
+            sendTarget(getDangerousTarget(enemies), health);
             return getDangerousTarget(enemies);
            }
         else if(getStackPriority(stack) >= 5)
@@ -246,23 +230,6 @@ public class LargeGroupTurret : Turret
     }
 
     //send target to other turrets
-    void sendTarget(Transform target)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Turret"))
-            {
-                Turret turret = hitCollider.GetComponent<Turret>();
-                if (turret != this && Vector3.Distance(turret.transform.position, target.position) <= turret.radius && health < turret.priorityHp)
-                {
-                    turret.priorityHp = health;
-                    turret.priorityTarget = target;
-                    turret.SendMessage("sendTarget", target);
-                }
-            }
-        }
-    }
 
 //calculates stack priority
     float getStackPriority(List<GameObject> enemies)
