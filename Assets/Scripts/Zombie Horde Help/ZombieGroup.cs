@@ -13,6 +13,7 @@ public class ZombieGroup
     public int CurrentGroupCount;
 
     public int MaxZombieCount;
+    public Transform transform;
     
 
     // Added for optimization
