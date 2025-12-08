@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Zombie
-  - Turret
+  - laneOne
+  - laneTwo
+  - laneThree
+  - goal
   layers:
   - Default
   - TransparentFX
