@@ -29,7 +29,7 @@ MonoBehaviour:
   - rid: 8233860131362702108
   - rid: 8233860131362702109
   - rid: 8233860131362702272
-  m_VersionTimestamp: 639007979510642363
+  m_VersionTimestamp: 639007987806475677
   m_SerializedVersion: 1
   m_DebugInfo: {fileID: 4549916951756459980}
   m_RuntimeGraph: {fileID: 8200812161073803760}
@@ -142,6 +142,21 @@ MonoBehaviour:
           UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
           mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
+    - Name: group
+      Type:
+        m_SerializableType: Zombie, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      Tooltip: 
+    - Name: repulsionRadius
+      Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      Tooltip: 
+    - Name: repulsionStrength
+      Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: AttackTurret
@@ -238,7 +253,7 @@ MonoBehaviour:
     - rid: 8233860131362701710
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
-        Position: {x: -203.2688, y: 0.8927518}
+        Position: {x: -185.38684, y: -0.3845272}
         ID:
           m_Value0: 11555917208034964138
           m_Value1: 18085553334509076408
@@ -381,7 +396,7 @@ MonoBehaviour:
     - rid: 8233860131362701757
       type: {class: FloatingPortNodeModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
-        Position: {x: 95.548546, y: 109.07199}
+        Position: {x: 95.54855, y: 109.07199}
         ID:
           m_Value0: 6149083354481495628
           m_Value1: 5714423604294315694
@@ -1241,7 +1256,7 @@ MonoBehaviour:
           rid: 7331861676357845074
         m_EndedNodes:
           rid: 7331861676357845075
-        m_VersionTimestamp: 639007979510642363
+        m_VersionTimestamp: 639007987806475677
     - rid: 7331861676357845072
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -1507,6 +1522,12 @@ MonoBehaviour:
           rid: 8233860131362702160
         Agents:
           rid: 8233860148186316833
+        group:
+          rid: -2
+        repulsionRadius:
+          rid: -2
+        repulsionStrength:
+          rid: -2
     - rid: 8233860148186316937
       type: {class: TryStackAction, ns: , asm: Assembly-CSharp}
       data:
